@@ -17,7 +17,7 @@ Installing this package requires WP-CLI v1.1.0 or greater. Update to the latest 
 
 Once you've done so, you can install this package with:
 
-    wp package install git@github.com:reaktivstudios/plugin-scaffold.git
+    wp package install git@github.com:1bigidea/plugin-scaffold.git
 
 ## Contributing
 

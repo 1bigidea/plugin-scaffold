@@ -17,7 +17,7 @@ use WP_CLI\Utils;
  *
  * @package WP_CLI
  */
-class ScaffoldCustomPluginCommand
+class Scaffold1BigIdeaPluginCommand
 {
 
 	/**
@@ -103,7 +103,8 @@ class ScaffoldCustomPluginCommand
 	 * @param array $args       The CLI arguments.
 	 * @param array $assoc_args The CLI associative args array.
 	 */
-	public function custom_plugin($args, $assoc_args)
+	//https://docs.wpvip.com/how-tos/write-custom-wp-cli-commands/
+	public function __invoke($args, $assoc_args)
 	{
 
 		WP_CLI::run_command(array('scaffold', 'plugin', $args[0]), $assoc_args);
@@ -128,6 +129,17 @@ class ScaffoldCustomPluginCommand
 			"{$plugin_dir}/src/scss",
 			"{$plugin_dir}/src/js",
 		));
+		/*
+			$files_to_create = [
+			$plugin_path                  => self::mustache_render( 'plugin.mustache', $data ),
+			$plugin_readme_path           => self::mustache_render( 'plugin-readme.mustache', $data ),
+			"{$plugin_dir}/package.json"  => self::mustache_render( 'plugin-packages.mustache', $data ),
+			"{$plugin_dir}/Gruntfile.js"  => self::mustache_render( 'plugin-gruntfile.mustache', $data ),
+			"{$plugin_dir}/.gitignore"    => self::mustache_render( 'plugin-gitignore.mustache', $data ),
+			"{$plugin_dir}/.distignore"   => self::mustache_render( 'plugin-distignore.mustache', $data ),
+			"{$plugin_dir}/.editorconfig" => file_get_contents( self::get_template_path( '.editorconfig' ) ),
+		];
+		*/
 	}
 
 	/**
@@ -145,6 +157,4 @@ class ScaffoldCustomPluginCommand
 	}
 }
 
-$custom_plugin_cli = new ScaffoldCustomPluginCommand();
-
-WP_CLI::add_command('scaffold bespoke_plugin', array($custom_plugin_cli, 'custom_plugin'));
+WP_CLI::add_command('scaffold bespoke_plugin', 'Scaffold1BigIdeaPluginCommand');
