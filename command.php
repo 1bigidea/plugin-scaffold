@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Adds CLI package comand for custom plugin.
  *
@@ -16,7 +17,8 @@ use WP_CLI\Utils;
  *
  * @package WP_CLI
  */
-class ScaffoldCustomPluginCommand {
+class ScaffoldCustomPluginCommand
+{
 
 	/**
 	 * Generates starter code for a plugin.
@@ -26,7 +28,6 @@ class ScaffoldCustomPluginCommand {
 	 * * `plugin-slug.php` is the main PHP plugin file.
 	 * * `readme.txt` is the readme file for the plugin.
 	 * * `package.json` needed by NPM holds various metadata relevant to the project. Packages: `grunt`, `grunt-wp-i18n` and `grunt-wp-readme-to-markdown`.
-	 * * `Gruntfile.js` is the JS file containing Grunt tasks. Tasks: `i18n` containing `addtextdomain` and `makepot`, `readme` containing `wp_readme_to_markdown`.
 	 * * `.editorconfig` is the configuration file for Editor.
 	 * * `.gitignore` tells which files (or patterns) git should ignore.
 	 * * `.distignore` tells which files and folders should be ignored in distribution.
@@ -36,8 +37,8 @@ class ScaffoldCustomPluginCommand {
 	 * * `assets/js`
 	 * * `assets/css`
 	 * * `assets/images`
-	 * * `inc/classes`
-	 * * `inc/functions`
+	 * * `src/scss`
+	 * * `src/js`
 	 *
 	 * The following files are also included unless the `--skip-tests` is used:
 	 *
@@ -95,38 +96,38 @@ class ScaffoldCustomPluginCommand {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     $ wp scaffold plugin sample-plugin
+	 *     $ wp scaffold bespoke_plugin sample-plugin
 	 *     Success: Created plugin files.
 	 *     Success: Created test files.
 	 *
 	 * @param array $args       The CLI arguments.
 	 * @param array $assoc_args The CLI associative args array.
 	 */
-	public function custom_plugin( $args, $assoc_args ) {
+	public function custom_plugin($args, $assoc_args)
+	{
 
-		WP_CLI::run_command( array( 'scaffold', 'plugin', $args[0] ), $assoc_args );
+		WP_CLI::run_command(array('scaffold', 'plugin', $args[0]), $assoc_args);
 
 		$plugin_slug = $args[0];
 
-		if ( ! empty( $assoc_args['dir'] ) ) {
-			if ( ! is_dir( $assoc_args['dir'] ) ) {
-				WP_CLI::error( "Cannot create plugin in directory that doesn't exist." );
+		if (!empty($assoc_args['dir'])) {
+			if (!is_dir($assoc_args['dir'])) {
+				WP_CLI::error("Cannot create plugin in directory that doesn't exist.");
 			}
 			$plugin_dir = $assoc_args['dir'] . "/$plugin_slug";
 		} else {
 			$plugin_dir = WP_PLUGIN_DIR . "/$plugin_slug";
 		}
 
-		$this->create_directories( array(
+		$this->create_directories(array(
 			"{$plugin_dir}/assets",
 			"{$plugin_dir}/assets/js",
 			"{$plugin_dir}/assets/css",
 			"{$plugin_dir}/assets/images",
-			"{$plugin_dir}/inc/",
-			"{$plugin_dir}/inc/classes",
-			"{$plugin_dir}/inc/functions",
-		) );
-
+			"{$plugin_dir}/src/",
+			"{$plugin_dir}/src/scss",
+			"{$plugin_dir}/src/js",
+		));
 	}
 
 	/**
@@ -134,16 +135,16 @@ class ScaffoldCustomPluginCommand {
 	 *
 	 * @param array $directories Array of directories to create.
 	 */
-	private function create_directories( $directories ) {
-		foreach ( $directories as $directory ) {
-			if ( ! is_dir( $directory ) ) {
-				Process::create( Utils\esc_cmd( 'mkdir -p %s', $directory ) )->run();
+	private function create_directories($directories)
+	{
+		foreach ($directories as $directory) {
+			if (!is_dir($directory)) {
+				Process::create(Utils\esc_cmd('mkdir -p %s', $directory))->run();
 			}
 		}
 	}
-
 }
 
 $custom_plugin_cli = new ScaffoldCustomPluginCommand();
 
-WP_CLI::add_command( 'scaffold custom_plugin', array( $custom_plugin_cli, 'custom_plugin' ) );
+WP_CLI::add_command('scaffold bespoke_plugin', array($custom_plugin_cli, 'custom_plugin'));
